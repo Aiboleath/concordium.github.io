@@ -1,89 +1,34 @@
-.. Should answer:
-    - What is a smart contract
-    - Why use a smart contract
-    - What are the use cases
-    - What are not the use cases
-
-.. _introduction:
-
 ===============================
-Introduction to smart contracts
+Введение в смарт-контракты
 ===============================
 
-A smart contract is a user-supplied piece of code submitted to the Concordium
-blockchain, used to define behavior that is not directly part of the core
-protocol. Smart contracts are executed by nodes in the Concordium network
-according to predefined rules. Their execution is fully transparent, and all
-nodes must agree on what the outcome of execution is based on only publicly
-available information.
+Смарт-контракт - это предоставляемый пользователем фрагмент кода, отправляемый в блокчейн Concordium, используемый для любых действий, не определенных явно ядром системы. Смарт-контракты выполняются узлами в сети Concordium в соответствии с предопределенными правилами. Их исполнение полностью прозрачно, и все узлы должны согласиться с тем, что результат выполнения контракта может быть основан только на общедоступной информации.
 
-A smart contract can receive, hold and send GTU, it is able to observe some
-aspects of the chain, and maintain its own state. Smart contracts are always
-executed as a response to **external** actions, e.g., an account sending a
-message. In practice smart contracts will often be a small part of a larger
-system, combining on and off-chain functionality. An example of off-chain
-functionality could be a server that invokes the smart contract based on
-data from the real-world, such as prices of stocks, or weather information.
+Смарт-контракт может получать, хранить и отправлять токены GTU, он может наблюдать (лисенить) за некоторыми функциями в блокчейне, а также иметь свои логические состояния (статусы). Смарт-контракты всегда выполняются внешними действиями, например, когда аккаунт посылает определенное сообщение. На практике смарт-контракты часто представляют собой небольшую часть более крупной системы, сочетающую в себе офф-чейн и он-чейн функции. Примером офф-чейн функциональности может быть сервер, который вызывает смарт-контракт на основе данных из реального мира, таких как цены на акции или информация о погоде.
 
-What are smart contracts for?
+Для чего нужны смарт-контракты?
 =============================
+Смарт-контракты помогают повысить доверие к "третьей стороне" (например,посреднику), в некоторых случаях устраняя необходимость в третьей стороне вообще, в других же - уменьшая их возможности делать что-либо (например, с токенами) и, таким образом, уменьшая необходимый уровень доверия к ним.
 
-Smart contracts can reduce the needed amount of trust in third-parties, in some cases
-removing the need for a trusted third-party, in other cases reducing their
-capabilities and thus reducing the amount of trust needed in them.
+Поскольку смарт-контракты выполняются полностью прозрачно, и каждый, кто имеет доступ к ноде, может проверить их, они могут быть очень полезны для обеспечения соглашения между сторонами.
 
-Because smart contracts are executed completely transparently, in a way that
-anybody with access to a node can verify, they can be very useful for ensuring
-agreement between parties.
-
-.. _auction:
-
-Auction smart contract example
+Пример смарт-контракта на аукционе
 ------------------------------
+Примером использования смарт-контрактов может быть проведение аукциона. Мы программируем смарт-контракт так, чтобы он принимал разные ставки от кого угодно и отслеживал самую высокую цену. По окончании аукциона смарт-контракт отправляет токены GTU победившей ставки  продавцу, а все остальные ставки - обратно. Затем продавец должен отправить товар победителю.
 
-A use case for smart contracts could be for holding an auction; here we program
-the smart contract to accept different bids from anyone and have it keep track
-of the highest bidder.
-When the auction is over, the smart contract sends the winner bid GTU to the seller and all other bids back. The seller then should send the item to the winner.
+Смарт-контракт заменяет главную роль аукционера. Сам контракт регулирует только часть торгов и распределение GTU в сети. Вероятно, также потребуется некоторая логика для возмещения предложившему самую высокую ставку в случае, если продавец не выполняет свои обязательства. Скорее всего, это будет означать, что контракт должен будет содержать некое доказательство того, что продавец действительно выполнил свое обязательство, или какой-то способ подачи жалобы от участника, предложившему самую высокую цену. Смарт-контракты не могут решить эти реальные проблемы автоматически, и лучшее решение, вероятно, будет зависеть от специфики аукциона.
 
-The smart contract replaces the main role of the auctioneer. The contract itself
-only governs the bidding part, and the on-chain distribution of GTUs. It will
-likely also need some logic for reimbursing the highest bidder if the seller
-does not fulfil their obligations. This will most likely mean that the contract
-needs to support some notion of proof that the seller has indeed fulfilled their
-obligation, or some way for the highest bidder to file a complaint. Smart
-contracts cannot resolve these real-world issues automatically, and the best
-solution is likely going to depend on the specifics of the auction.
-
-What are smart contracts *not* for?
+Для чего НЕ нужны смарт-контракты?
 ===================================
 
-Smart contracts are a very exciting technology and people are still finding new
-ways to take advantage of them.
-However, there are some cases where smart contracts are not a good solution.
+Смарт-контракты - это новая интересная технология, и мы все еще ищем новые способы их использования. Однако в некоторых случаях смарт-контракты не являются оптимальным решением.
 
-One of the key advantages of smart contracts are the trust in the code
-execution, and to achieve this a large number of nodes in the blockchain network
-have to execute the same code and ensure agreement of the result.
-Naturally, this becomes expensive compared to running the same code on one node
-in some cloud service.
+Одним из ключевых преимуществ смарт-контрактов является доверие к выполнению кода, и для этого большое количество нод в блокчейне должно выполнять один и тот же код и обеспечивать согласование результата (консенсус). Естественно, это обходится дороже по сравнению с запуском одного и того же кода на одном узле в облаке.
 
-In cases where a smart contract depends on heavy calculations, it might be
-possible moving this calculation out of the smart contract and have the smart
-contract execute only some key parts of the computation, using cryptographic
-techniques to ensure the other parts are executed correctly.
+В случаях, когда смарт-контракту нужно выполнить "тяжелые" вычисления, можно было бы вынести этот расчет из смарт-контракта и заставить его выполнять только некоторые ключевые части вычислений, используя криптографию только для обеспечения правильности выполнения других частей.
 
-Finally, it is important to remember that smart contracts have no privacy and
-**everything** the smart contract has access to is accessible to everybody else
-on the Concordium network, meaning it is difficult to handle sensitive data in a
-smart contract. In some cases it might be possible to use cryptographic tools to
-not work with the data directly, but rather have the smart contracts work with
-derived notions such as encryptions and commitments, which hide the actual data.
+Наконец, важно помнить, что смарт-контракты не обеспечивают конфиденциальности, и **все**, к чему у смарт-контракта есть доступ, доступно всем остальным в сети Concordium, а это означает, что конфиденциальные данные достаточно трудно будет обрабатывать используя контракты. В некоторых случаях можно использовать криптографические инструменты, чтобы не работать с данными напрямую, вместо этого контракты должны работать с шифрованными данными, которые скрывают фактические данные.
 
-Life cycle of a smart contract
+Жизненный цикл смарт-контракта
 ==============================
-
-A smart contract is first deployed to the chain as part of a :ref:`contract
-module <contract-module>`. After this a smart contract can be *initialized* to
-obtain a :ref:`smart contract instance <contract-instances>`. Finally a smart
-contract instance can be repeatedly updated according to its own logic.
+Смарт-контракт сначала развертывается в сети как часть contract module. После этого смарт-контракт может быть инициализирован для получения contract instance. После этого инстанс смарт-контракта можно многократно обновлять в соответствии с его внутренней логикой.
